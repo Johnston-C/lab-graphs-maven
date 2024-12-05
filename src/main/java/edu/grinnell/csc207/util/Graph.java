@@ -885,7 +885,26 @@ public class Graph {
   // +-----------+---------------------------------------------------
   // | Utilities |
   // +-----------+
+  /**
+   * 
+   * @param pen
+   * @param vertex
+   * @return
+   */
+  public void reachableFrom(PrintWriter pen, int vertex) {
+    for (String v : this.vertexNames) {
+      unmark(v);
+    } // for
 
+    
+    mark(vertex);
+    for (Edge n : this.vertices[vertex]) {
+      if (!(isMarked(n.target()))) {
+        reachableFrom(pen, n.target());
+      } 
+    }
+    pen.println(this.vertexNames[vertex]);
+  }
   /**
    * Add a vertex name / vertex number pair.  Assumes neither the name
    * or number have been used.
@@ -933,7 +952,7 @@ public class Graph {
       throw new ConcurrentModificationException();
     } // if
   } // failFast(int)
-
+  
   /**
    * Determine if a vertex is valid.
    *
