@@ -526,6 +526,63 @@ public class Graph {
   // | Mutators |
   // +----------+
 
+  public Edge[] shortestPath(int source, int sink) {
+    for (int i = 0; i < numVertices; i++) {
+      unmark(i);
+    } // for[i]
+    int[] distanceTo = new int[numVertices];
+    int[] shortestToVertex = new int[numVertices];
+    for (int i = 0; i < numVertices; i++) {
+      distanceTo[i] = -1;
+      shortestToVertex[i] = -1;
+    } // for[i]
+    distanceTo[source] = 0;
+    shortestToVertex[source] = -1;
+    mark(source);
+    int currentVertex = source;
+    while (currentVertex != sink) {
+      for (Edge e : vertices[currentVertex]) {
+        if (distanceTo[e.target()] == -1) {
+          distanceTo[e.target()] = e.weight();
+        } else if (!(isMarked(e.target()))) {
+          if (distanceTo[e.target()] > distanceTo[currentVertex] + e.weight()) {
+            distanceTo[e.target()] = distanceTo[currentVertex] + e.weight();
+            shortestToVertex[e.target()] = currentVertex;
+          } // if
+        } // if / else
+      } // for[e]
+      int min = -1;
+      for (int i = 0; i < numVertices; i++) {
+        if ((distanceTo[i] != -1) && !(isMarked(i))) {
+          if (min == -1) {
+            min = distanceTo[i];
+          }  else {
+            min = Math.min(min, distanceTo[i]);
+          } // if / else
+        } // if
+      } // for[i]
+      if (min == -1) {
+        // throw new Exception("BAD");
+      } else {
+        currentVertex = min;
+        mark(min);
+      } // if / else
+    } // while
+    int arrLength = 0;
+    int reversingVertex = currentVertex;
+    while (reversingVertex != source) {
+      arrLength++;
+      reversingVertex = shortestToVertex[reversingVertex];
+    } // while
+    Edge[] output = new Edge[arrLength];
+    for (int j = arrLength - 1; j >= 0; j--) {
+      output[j] = new Edge(shortestToVertex[currentVertex], currentVertex,
+                      distanceTo[currentVertex] - distanceTo[shortestToVertex[currentVertex]]);
+      currentVertex = shortestToVertex[currentVertex];
+    } // for[j]
+    return output;
+  } // shortestPath(int, int)
+
   /**
    * Add an edge between two vertices. If the edge already exists, replace it.
    *
