@@ -31,23 +31,32 @@ public class PathExperiment {
     g.addVertex("f");
     g.addVertex("g");
 
-    g.addEdge("a", "b", 0);
-    g.addEdge("b", "c", 0);
-    g.addEdge("c", "d", 0);
-    g.addEdge("d", "e", 0);
-    g.addEdge("e", "g", 0);
-    g.addEdge("e", "a", 0);
-    g.addEdge("c", "g", 0);
-    g.addEdge("g", "e", 0);
+    g.addEdge("a", "b", 5);
+    g.addEdge("b", "c", 2);
+    g.addEdge("c", "d", 4);
+    g.addEdge("d", "e", 1);
+    g.addEdge("e", "g", 3);
+    g.addEdge("e", "a", 7);
+    g.addEdge("c", "g", 2);
+    g.addEdge("g", "e", 1);
 
-    pen.println(g.path("a", "b"));
-    pen.println(g.path("a", "c"));
-    pen.println(g.path("a", "d"));
-    pen.println(g.path("a", "e"));
-    pen.println(g.path("a", "f"));
-    pen.println(g.path("a", "g"));
-    pen.println(g.path("a", "a"));
+    // pen.println(g.path("a", "b"));
+    // pen.println(g.path("a", "c"));
+    // pen.println(g.path("a", "d"));
+    // pen.println(g.path("a", "e"));
+    // pen.println(g.path("a", "f"));
+    // pen.println(g.path("a", "g"));
+    // pen.println(g.path("a", "a"));
+
+    pen.println(g.shortestPath(0, 6));
+    pen.println(g.shortestPath(1, 6));
+    pen.println(g.shortestPath(3, 6));
+    pen.println(g.shortestPath(0, 0));
+    pen.println(g.shortestPath(0, 5));
+    pen.println(g.shortestPath(0, 3));
     pen.println("Done");
+
+
   } // main(String[])
 
 } // PathExperiment

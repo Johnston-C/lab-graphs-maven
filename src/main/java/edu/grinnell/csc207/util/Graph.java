@@ -526,7 +526,7 @@ public class Graph {
   // | Mutators |
   // +----------+
 
-  public Edge[] shortestPath(int source, int sink) {
+  public String shortestPath(int source, int sink) {
     for (int i = 0; i < numVertices; i++) {
       unmark(i);
     } // for[i]
@@ -541,9 +541,10 @@ public class Graph {
     mark(source);
     int currentVertex = source;
     while (currentVertex != sink) {
-      for (Edge e : vertices[currentVertex]) {
+      for (Edge e : edgesFrom(currentVertex)) {
         if (distanceTo[e.target()] == -1) {
           distanceTo[e.target()] = e.weight();
+          shortestToVertex[e.target()] = currentVertex;
         } else if (!(isMarked(e.target()))) {
           if (distanceTo[e.target()] > distanceTo[currentVertex] + e.weight()) {
             distanceTo[e.target()] = distanceTo[currentVertex] + e.weight();
@@ -555,14 +556,14 @@ public class Graph {
       for (int i = 0; i < numVertices; i++) {
         if ((distanceTo[i] != -1) && !(isMarked(i))) {
           if (min == -1) {
-            min = distanceTo[i];
+            min = i;
           }  else {
-            min = Math.min(min, distanceTo[i]);
+            min = Math.min(min, i);
           } // if / else
         } // if
       } // for[i]
       if (min == -1) {
-        // throw new Exception("BAD");
+        return null;
       } else {
         currentVertex = min;
         mark(min);
@@ -580,7 +581,11 @@ public class Graph {
                       distanceTo[currentVertex] - distanceTo[shortestToVertex[currentVertex]]);
       currentVertex = shortestToVertex[currentVertex];
     } // for[j]
-    return output;
+    String outString = "";
+    for (int k = 0; k < output.length; k++) {
+      outString += output[k].toString() + " ";
+    } // for[i]
+    return outString;
   } // shortestPath(int, int)
 
   /**
